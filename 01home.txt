@@ -3,6 +3,8 @@
 
 
 1. Установить клиент и подключиться к базе данных
+  Win client SQL Server Management Studio (SSMS)
+  Mac OS DBeaver
    host: laba-database.c3lw8ovphcyl.eu-central-1.rds.amazonaws.com
    логин/пароль student/student
 2. Что такое база данных?
