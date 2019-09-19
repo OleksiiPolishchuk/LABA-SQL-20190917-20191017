@@ -5,6 +5,12 @@
  * ####################################
  */
 
+ /*
+ пвравэлправэлпэавл
+ жлавопржлдаоплжо
+ */
+ --аывпаывжпоо
+ --апав п
 
 /*
  * +----------------+
@@ -14,24 +20,27 @@
 
 -- вывести все данные по продуктам
 select * from db_laba.dbo.products;
+select * from db_laba.dbo.product_categories;
+
 
 -- вывести все данные по заказам
 select * from db_laba.dbo.orders;
+select * from orders;
 
 
 -- вывести все данные по странам
 select * from db_laba.dbo.countries;
+select * from db_laba.dbo.locations
 
 -- вывести все данные по регионам
 select * from db_laba.dbo.regions;
 
 
 -- вывести все данные по продуктам перечисляя поля (колонки)
-select product_id, product_name, description, standard_cost, list_price, category_id from db_laba.dbo.products;
+select product_id, product_name, description, standard_cost, list_price, category_Id from db_laba.dbo.products;
 
 --вывести все данные по продуктам перечисляя поля (колонки) - 2й способ с форматированием
-select product_id,
-	   product_name,
+select product_id, product_name,
 	   description,
 	   standard_cost,
 	   list_price,
@@ -45,7 +54,10 @@ select p.product_id
 	   ,p.standard_cost
 	   ,p.list_price
 	   --,p.category_id
-  from db_laba.dbo.products p
+	   --,p.list_price
+  from db_laba.dbo.products p;
+
+  select t1.description, t1.list_price from db_laba.dbo.products t1
   
 /*
  * +-------------------+
@@ -57,6 +69,14 @@ select p.product_id
 select distinct (p.category_id)
   from db_laba.dbo.products p
   order by 1;
+
+  select p.category_id cat
+  from db_laba.dbo.products p
+  order by 1;
+
+   select p.category_id cat
+  from db_laba.dbo.products p
+  order by p.category_id;
  
 /*
  * +-----------------------+
@@ -70,8 +90,11 @@ select p.product_name
 	   ,p.description
 	   ,p.standard_cost
   from db_laba.dbo.products p
- where p.standard_cost >= 3000
- order by p.product_name desc
+ --where p.standard_cost >= 3000
+ --where p.standard_cost = 4058.99
+ where p.standard_cost != 4058.99
+ --order by p.product_name desc;
+ order by p.standard_cost asc;
  
 /*
  * +------------------+
@@ -88,9 +111,7 @@ select p.product_name
 	   ,p.standard_cost
 	   --,p.list_price
 	   --,p.category_id
-  from db_laba.dbo.products p
- where p.category_id in (1, 2)
- and p.standard_cost > 2500
+  from db_laba.dbo.products p where p.category_id in (1, 2)              and p.standard_cost > 2500;
  
 -- вывести имя продукта, описание, категорию и стандартную стоимость
 -- по продуктам 1-й категории
@@ -98,13 +119,14 @@ select p.product_name
 -- результат отсортировать по категории по убыванию и по стандартной стоимости по возрастанию
 select p.product_name
 	   ,p.description
-	   ,p.standard_cost
-	   --,p.list_price
 	   ,p.category_id
+	   ,p.standard_cost
+	   --,p.list_price	   
   from db_laba.dbo.products p
  where p.category_id = 1
  or p.standard_cost > 5000
- order by p.category_id desc, p.standard_cost
+ --order by p.category_id desc, p.standard_cost
+ order by p.category_id desc, 4
 /*
  * +------------------+
  * | Оператор between |
@@ -118,6 +140,7 @@ select p.product_name
 	   ,p.standard_cost
 	   --,p.list_price
   from db_laba.dbo.products p
+  --where p.standard_cost >= 500 and p.standard_cost <= 800
  where p.standard_cost between 500 and 800
  order by p.standard_cost
 
@@ -133,7 +156,15 @@ select p.product_name
   from db_laba.dbo.products p
  where p.standard_cost between 500 and 800
    and p.category_id NOT IN (1, 2, 3, 4) 
- order by p.standard_cost desc
+ order by p.standard_cost desc;
+
+ /*
+ sorting
+
+ order by p.standard_cost desc -сортировка по убыванию
+ order by p.standard_cost asc -сортировка по ворастанию
+ order by p.standard_cost  -сортировка по ворастанию по умалчанию asc
+ */
 
 /*
  * +---------------+
@@ -149,8 +180,12 @@ select p.product_name
 	   --,p.list_price
 	   --,p.category_id
   from db_laba.dbo.products p
- where p.product_name like 'k%'
- order by p.product_name desc
+ where p.product_name like 'K%' -- '%<string>%'
+ --where p.product_name like '%k' -- '%<string>%'
+ order by p.product_name desc;
+
+ --'K' = 'k'
+
 
 
 /*
@@ -158,17 +193,19 @@ select p.product_name
  * | Работа с NULL (пустыми значениями) |
  * +------------------------------------+
  */
+-- ''
  -- вывести содержимое таблицы locations
  -- где индекс пустой (null)
  SELECT location_id
 		,address
-		,postal_code
 		,city
+		,postal_code
 		,state
 		,country_id
   FROM db_laba.dbo.locations
-  where postal_code = NULL
-  --where postal_code is NULL
+  --where postal_code = '6823' --NULL
+  --where postal_code = NULL
+  where postal_code is NULL;
 
 /*
  * +-----------------------------------------------+
